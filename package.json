@@ -23,7 +23,27 @@
         ],
         "priority": "default"
       }
-    ]
+    ],
+    "commands": [
+      {
+        "command": "chatmemo.openAsText",
+        "title": "ChatMemo: Open as Plain Text"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "chatmemo.openAsText",
+          "when": "resourceExtname == .chatmemo"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "chatmemo.openAsText",
+          "when": "resourceExtname == .chatmemo"
+        }
+      ]
+    }
   },
   "scripts": {
     "build": "node build.mjs",
