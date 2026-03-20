@@ -12,13 +12,20 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "languages": [
+      {
+        "id": "chatmd",
+        "aliases": ["Chat Memo"],
+        "extensions": [".chat.md"]
+      }
+    ],
     "customEditors": [
       {
         "viewType": "chatmemo.editor",
         "displayName": "ChatMemo Editor",
         "selector": [
           {
-            "filenamePattern": "*.chatmd"
+            "filenamePattern": "*.chat.md"
           }
         ],
         "priority": "default"
@@ -34,13 +41,13 @@
       "explorer/context": [
         {
           "command": "chatmemo.openAsText",
-          "when": "resourceExtname == .chatmd"
+          "when": "resourceFilename =~ /\\.chat\\.md$/"
         }
       ],
       "commandPalette": [
         {
           "command": "chatmemo.openAsText",
-          "when": "resourceExtname == .chatmd"
+          "when": "resourceFilename =~ /\\.chat\\.md$/"
         }
       ]
     }
