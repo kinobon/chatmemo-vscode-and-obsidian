@@ -1,0 +1,7 @@
+node_modules/
+out/
+*.vsix
+
+## Panda
+styled-system
+styled-system-studio
