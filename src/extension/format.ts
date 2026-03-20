@@ -5,7 +5,7 @@ export interface ChatMessage {
 }
 
 const HEADER_RE = /^<!-- msg:(\d+)(?:\s+re:(\d+))? -->$/;
-const FRONTMATTER_RE = /^---\n[\s\S]*?\n---\n/;
+const FRONTMATTER_RE = /^---\r?\n[\s\S]*?\r?\n---\r?\n/;
 
 const FRONTMATTER = `---
 description: |
@@ -22,7 +22,7 @@ function stripFrontmatter(text: string): string {
 }
 
 export function parseMessages(text: string): ChatMessage[] {
-  const lines = stripFrontmatter(text).split('\n');
+  const lines = stripFrontmatter(text).split(/\r?\n/);
   const messages: ChatMessage[] = [];
   let current: ChatMessage | null = null;
   let bodyLines: string[] = [];

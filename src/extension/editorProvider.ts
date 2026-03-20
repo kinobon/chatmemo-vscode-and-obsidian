@@ -45,6 +45,10 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
       changeDocumentSubscription.dispose();
     });
 
+    const postMessages = (messages: ChatMessage[]) => {
+      webviewPanel.webview.postMessage({ type: 'update', messages });
+    };
+
     webviewPanel.webview.onDidReceiveMessage(async (msg) => {
       switch (msg.type) {
         case 'add': {
@@ -54,6 +58,7 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
           if (msg.parent) entry.parent = msg.parent;
           messages.push(entry);
           await this.writeMessages(document, messages);
+          postMessages(messages);
           break;
         }
         case 'edit': {
@@ -62,6 +67,7 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
           if (target) {
             target.message = msg.message;
             await this.writeMessages(document, messages);
+            postMessages(messages);
           }
           break;
         }
@@ -71,6 +77,7 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
           if (target) {
             target.message = '';
             await this.writeMessages(document, messages);
+            postMessages(messages);
           }
           break;
         }
@@ -91,9 +98,13 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
 
   private async writeMessages(document: vscode.TextDocument, messages: ChatMessage[]): Promise<void> {
     const edit = new vscode.WorkspaceEdit();
+    const fullRange = new vscode.Range(
+      document.positionAt(0),
+      document.positionAt(document.getText().length)
+    );
     edit.replace(
       document.uri,
-      new vscode.Range(0, 0, document.lineCount, 0),
+      fullRange,
       serializeMessages(messages)
     );
     await vscode.workspace.applyEdit(edit);
