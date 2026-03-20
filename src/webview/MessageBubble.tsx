@@ -16,6 +16,8 @@ interface Props {
 
 export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onOpenThread, isActive, compact }: Props) {
   const [hovered, setHovered] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const isDeleted = message.message === '';
 
   return (
     <div
@@ -35,7 +37,7 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
         maxWidth: '85%',
       })}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={() => { setHovered(false); setConfirmDelete(false); }}
     >
       {replyTo && (
         <div className={css({
@@ -50,19 +52,30 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
           WebkitLineClamp: 2,
           WebkitBoxOrient: 'vertical',
         })}>
-          {replyTo.message}
+          {replyTo.message || 'このメッセージは削除されました'}
         </div>
       )}
-      <div
-        className={css({
+      {isDeleted ? (
+        <div className={css({
           whiteSpace: 'pre-wrap',
-          wordBreak: 'break-word',
           lineHeight: '1.5',
-        })}
-        dangerouslySetInnerHTML={{ __html: linkify(message.message) }}
-      />
+          opacity: 0.5,
+          fontStyle: 'italic',
+        })}>
+          このメッセージは削除されました
+        </div>
+      ) : (
+        <div
+          className={css({
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+            lineHeight: '1.5',
+          })}
+          dangerouslySetInnerHTML={{ __html: linkify(message.message) }}
+        />
+      )}
 
-      {hovered && (
+      {hovered && !isDeleted && (
         <div className={css({
           position: 'absolute',
           top: '-4px',
@@ -77,7 +90,15 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
         })}>
           <ActionButton label="↩" title="返信" onClick={onReply} />
           <ActionButton label="✎" title="編集" onClick={onEdit} />
-          <ActionButton label="🗑" title="削除" onClick={onDelete} />
+          <ActionButton
+            label={confirmDelete ? "✓" : "🗑"}
+            title={confirmDelete ? "本当に削除" : "削除"}
+            onClick={() => {
+              if (confirmDelete) { onDelete(); setConfirmDelete(false); }
+              else setConfirmDelete(true);
+            }}
+            danger={confirmDelete}
+          />
           <ActionButton label="💬" title="スレッド" onClick={onOpenThread} />
         </div>
       )}
@@ -85,7 +106,7 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
   );
 }
 
-function ActionButton({ label, title, onClick }: { label: string; title: string; onClick: () => void }) {
+function ActionButton({ label, title, onClick, danger }: { label: string; title: string; onClick: () => void; danger?: boolean }) {
   return (
     <button
       onClick={onClick}
@@ -97,7 +118,7 @@ function ActionButton({ label, title, onClick }: { label: string; title: string;
         padding: '4px 8px',
         borderRadius: '4px',
         fontSize: '16px',
-        color: 'var(--vscode-editor-foreground)',
+        color: danger ? 'var(--vscode-errorForeground)' : 'var(--vscode-editor-foreground)',
         _hover: { bg: 'var(--vscode-toolbar-hoverBackground)' },
       })}
     >

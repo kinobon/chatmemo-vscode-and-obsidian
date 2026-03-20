@@ -66,17 +66,12 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
           break;
         }
         case 'delete': {
-          let messages = this.getMessages(document);
-          const idsToDelete = new Set<string>();
-          const collectChildren = (parentId: string) => {
-            idsToDelete.add(parentId);
-            for (const m of messages) {
-              if (m.parent === parentId) collectChildren(m.id);
-            }
-          };
-          collectChildren(msg.id);
-          messages = messages.filter(m => !idsToDelete.has(m.id));
-          await this.writeMessages(document, messages);
+          const messages = this.getMessages(document);
+          const target = messages.find(m => m.id === msg.id);
+          if (target) {
+            target.message = '';
+            await this.writeMessages(document, messages);
+          }
           break;
         }
         case 'ready':

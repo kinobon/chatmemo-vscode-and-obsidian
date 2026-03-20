@@ -9,9 +9,12 @@ const FRONTMATTER_RE = /^---\n[\s\S]*?\n---\n/;
 
 const FRONTMATTER = `---
 description: |
-  Slack風チャットメモ。各メッセージは <!-- msg:ID --> で区切られる。
+  Markdown形式のSlack風チャットメモ。
+  各メッセージはHTMLコメント <!-- msg:ID --> で区切られる。
   <!-- msg:ID re:PARENT_ID --> はスレッド返信を示す。
   IDはファイル内で一意な連番整数。本文はヘッダー行の次の行から次のヘッダーまで。
+  メッセージ本文にはMarkdown記法が使える。
+  本文が空のメッセージは削除済みを意味する。
 ---`;
 
 function stripFrontmatter(text: string): string {

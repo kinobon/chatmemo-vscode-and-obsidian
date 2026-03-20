@@ -58,6 +58,12 @@ export function App() {
     setReplyTo(null);
   }, []);
 
+  const findThreadRoot = useCallback((id: string): string => {
+    const msg = messages.find(m => m.id === id);
+    if (msg?.parent) return findThreadRoot(msg.parent);
+    return id;
+  }, [messages]);
+
   const replyToMessage = replyTo ? messages.find(m => m.id === replyTo) : null;
   const editingMessage = editingId ? messages.find(m => m.id === editingId) : null;
 
@@ -103,7 +109,7 @@ export function App() {
               onReply={() => setReplyTo(msg.id)}
               onEdit={() => handleEdit(msg.id)}
               onDelete={() => handleDelete(msg.id)}
-              onOpenThread={() => setThreadRootId(msg.id)}
+              onOpenThread={() => setThreadRootId(findThreadRoot(msg.id))}
               isActive={threadRootId === msg.id}
             />
           ))}
