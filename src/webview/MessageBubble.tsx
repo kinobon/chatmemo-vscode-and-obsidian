@@ -5,7 +5,7 @@ import { linkify } from './linkify';
 
 interface Props {
   message: ChatMessage;
-  replyCount: number;
+  replyTo?: ChatMessage;
   onReply: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -14,7 +14,7 @@ interface Props {
   compact?: boolean;
 }
 
-export function MessageBubble({ message, replyCount, onReply, onEdit, onDelete, onOpenThread, isActive, compact }: Props) {
+export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onOpenThread, isActive, compact }: Props) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -37,6 +37,22 @@ export function MessageBubble({ message, replyCount, onReply, onEdit, onDelete, 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+      {replyTo && (
+        <div className={css({
+          borderLeft: '2px solid var(--vscode-textLink-foreground)',
+          paddingLeft: '8px',
+          marginBottom: '4px',
+          opacity: 0.7,
+          fontSize: '12px',
+          lineHeight: '1.4',
+          overflow: 'hidden',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+        })}>
+          {replyTo.message}
+        </div>
+      )}
       <div
         className={css({
           whiteSpace: 'pre-wrap',
@@ -45,23 +61,6 @@ export function MessageBubble({ message, replyCount, onReply, onEdit, onDelete, 
         })}
         dangerouslySetInnerHTML={{ __html: linkify(message.message) }}
       />
-
-      {replyCount > 0 && (
-        <button
-          onClick={onOpenThread}
-          className={css({
-            background: 'none',
-            border: 'none',
-            color: 'var(--vscode-textLink-foreground)',
-            cursor: 'pointer',
-            padding: '2px 0',
-            fontSize: '12px',
-            _hover: { textDecoration: 'underline' },
-          })}
-        >
-          {replyCount}件の返信
-        </button>
-      )}
 
       {hovered && (
         <div className={css({
@@ -79,7 +78,7 @@ export function MessageBubble({ message, replyCount, onReply, onEdit, onDelete, 
           <ActionButton label="↩" title="返信" onClick={onReply} />
           <ActionButton label="✎" title="編集" onClick={onEdit} />
           <ActionButton label="🗑" title="削除" onClick={onDelete} />
-          {replyCount > 0 && <ActionButton label="💬" title="スレッド" onClick={onOpenThread} />}
+          <ActionButton label="💬" title="スレッド" onClick={onOpenThread} />
         </div>
       )}
     </div>
@@ -95,9 +94,9 @@ function ActionButton({ label, title, onClick }: { label: string; title: string;
         background: 'none',
         border: 'none',
         cursor: 'pointer',
-        padding: '2px 6px',
-        borderRadius: '3px',
-        fontSize: '13px',
+        padding: '4px 8px',
+        borderRadius: '4px',
+        fontSize: '16px',
         color: 'var(--vscode-editor-foreground)',
         _hover: { bg: 'var(--vscode-toolbar-hoverBackground)' },
       })}

@@ -101,7 +101,7 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
       })}>
         <MessageBubble
           message={rootMsg}
-          replyCount={0}
+
           onReply={() => {}}
           onEdit={() => onEdit(rootMsg.id)}
           onDelete={() => onDelete(rootMsg.id)}
@@ -116,7 +116,7 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
           <MessageBubble
             key={msg.id}
             message={msg}
-            replyCount={0}
+  
             compact
             onReply={() => {}}
             onEdit={() => onEdit(msg.id)}

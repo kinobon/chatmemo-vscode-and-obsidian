@@ -58,16 +58,6 @@ export function App() {
     setReplyTo(null);
   }, []);
 
-  const rootMessages = messages.filter(m => !m.parent);
-
-  const getReplyCount = (id: string): number => {
-    let count = 0;
-    for (const m of messages) {
-      if (m.parent === id) count += 1 + getReplyCount(m.id);
-    }
-    return count;
-  };
-
   const replyToMessage = replyTo ? messages.find(m => m.id === replyTo) : null;
   const editingMessage = editingId ? messages.find(m => m.id === editingId) : null;
 
@@ -94,7 +84,7 @@ export function App() {
           flexDirection: 'column',
           gap: '6px',
         })}>
-          {rootMessages.length === 0 && (
+          {messages.length === 0 && (
             <div className={css({
               display: 'flex',
               alignItems: 'center',
@@ -105,11 +95,11 @@ export function App() {
               メッセージを入力してください
             </div>
           )}
-          {rootMessages.map(msg => (
+          {messages.map(msg => (
             <MessageBubble
               key={msg.id}
               message={msg}
-              replyCount={getReplyCount(msg.id)}
+              replyTo={msg.parent ? messages.find(m => m.id === msg.parent) : undefined}
               onReply={() => setReplyTo(msg.id)}
               onEdit={() => handleEdit(msg.id)}
               onDelete={() => handleDelete(msg.id)}
