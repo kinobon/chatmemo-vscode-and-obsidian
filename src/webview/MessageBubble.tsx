@@ -21,11 +21,18 @@ export function MessageBubble({ message, replyCount, onReply, onEdit, onDelete, 
     <div
       className={css({
         position: 'relative',
-        padding: compact ? '4px 12px' : '6px 12px',
-        borderRadius: '4px',
-        bg: isActive ? 'var(--vscode-list-activeSelectionBackground)' : 'transparent',
-        _hover: { bg: 'var(--vscode-list-hoverBackground)' },
-        transition: 'background 0.1s',
+        padding: compact ? '8px 14px' : '10px 14px',
+        borderRadius: '12px',
+        bg: isActive
+          ? 'var(--vscode-list-activeSelectionBackground)'
+          : 'color-mix(in srgb, var(--vscode-editor-foreground) 6%, transparent)',
+        _hover: {
+          bg: isActive
+            ? 'var(--vscode-list-activeSelectionBackground)'
+            : 'color-mix(in srgb, var(--vscode-editor-foreground) 10%, transparent)',
+        },
+        transition: 'background 0.15s',
+        maxWidth: '85%',
       })}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

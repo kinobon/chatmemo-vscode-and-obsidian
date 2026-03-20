@@ -97,7 +97,7 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
         padding: '8px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '2px',
+        gap: '6px',
       })}>
         <MessageBubble
           message={rootMsg}

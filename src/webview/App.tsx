@@ -93,7 +93,7 @@ export function App() {
           padding: '16px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '2px',
+          gap: '6px',
         })}>
           {rootMessages.length === 0 && (
             <div className={css({
