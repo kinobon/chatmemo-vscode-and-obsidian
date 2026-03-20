@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What is this?
 
-ChatMemo is a VS Code extension that provides a Slack-like chat UI for taking notes. Files use the `.chat.md` extension and contain messages in a Markdown-based format with HTML comment headers (`<!-- msg:ID re:PARENT -->`) for threading.
+ChatMemo is a VS Code extension that provides a Slack-like chat UI for taking notes. Files use the `.chatmd` extension and contain messages in a Markdown-based format with HTML comment headers (`<!-- msg:ID re:PARENT -->`) for threading.
 
 ## Build & Development
 
@@ -17,7 +17,7 @@ pnpm package          # build + package into .vsix
 
 There are no tests or linting configured.
 
-To test the extension: open this repo in VS Code, press F5 to launch the Extension Development Host, then open a `.chat.md` file.
+To test the extension: open this repo in VS Code, press F5 to launch the Extension Development Host, then open a `.chatmd` file.
 
 ## Build Pipeline (build.mjs)
 
