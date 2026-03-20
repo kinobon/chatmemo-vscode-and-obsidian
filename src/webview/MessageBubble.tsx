@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { css } from 'styled-system/css';
 import { ChatMessage } from './types';
 import { linkify } from './linkify';
@@ -10,11 +10,12 @@ interface Props {
   onEdit: () => void;
   onDelete: () => void;
   onOpenThread: () => void;
+  onCopy: () => void;
   isActive?: boolean;
   compact?: boolean;
 }
 
-export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onOpenThread, isActive, compact }: Props) {
+export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onOpenThread, onCopy, isActive, compact }: Props) {
   const [hovered, setHovered] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const isDeleted = message.message === '';
@@ -99,6 +100,7 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
             danger={confirmDelete}
           />
           <ActionButton label="💬" title="スレッド" onClick={onOpenThread} />
+          <ActionButton label="📋" title="コピー" onClick={onCopy} />
         </div>
       )}
     </div>

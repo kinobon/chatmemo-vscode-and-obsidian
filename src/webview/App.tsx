@@ -50,6 +50,10 @@ export function App() {
     if (msg) setEditingId(id);
   }, [messages]);
 
+  const handleCopy = useCallback(async (text: string) => {
+    await navigator.clipboard.writeText(text);
+  }, [messages]);
+
   const handleCancelEdit = useCallback(() => {
     setEditingId(null);
   }, []);
@@ -110,6 +114,7 @@ export function App() {
               onEdit={() => handleEdit(msg.id)}
               onDelete={() => handleDelete(msg.id)}
               onOpenThread={() => setThreadRootId(findThreadRoot(msg.id))}
+              onCopy={() => handleCopy(msg.message)}
               isActive={threadRootId === msg.id}
             />
           ))}
@@ -133,6 +138,7 @@ export function App() {
           onReply={(id) => setReplyTo(id)}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onCopy={handleCopy}
           onSendReply={(text, parentId) => {
             vscode.postMessage({ type: 'add', message: text, parent: parentId });
           }}

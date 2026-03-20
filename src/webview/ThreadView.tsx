@@ -11,9 +11,10 @@ interface Props {
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onSendReply: (text: string, parentId: string) => void;
+  onCopy: (text: string) => void;
 }
 
-export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelete, onSendReply }: Props) {
+export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelete, onSendReply, onCopy }: Props) {
   const [text, setText] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -105,6 +106,7 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
           onEdit={() => onEdit(rootMsg.id)}
           onDelete={() => onDelete(rootMsg.id)}
           onOpenThread={() => {}}
+          onCopy={() => onCopy(rootMsg.message)}
         />
         {threadMessages.map(msg => (
           <MessageBubble
@@ -116,6 +118,7 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
             onEdit={() => onEdit(msg.id)}
             onDelete={() => onDelete(msg.id)}
             onOpenThread={() => {}}
+            onCopy={() => onCopy(rootMsg.message)}
           />
         ))}
         <div ref={bottomRef} />
