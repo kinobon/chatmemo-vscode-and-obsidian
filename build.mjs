@@ -56,7 +56,8 @@ await esbuild.build({
   },
 });
 
-// 4. Copy panda CSS as webview.css
+// 4. Copy panda CSS as webview.css + append markdown styles
 fs.copyFileSync('out/panda.css', 'out/webview.css');
+fs.appendFileSync('out/webview.css', '\n' + fs.readFileSync('src/webview/markdown.css', 'utf8'));
 
 console.log('Build complete!');

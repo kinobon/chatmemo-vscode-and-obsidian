@@ -15,8 +15,12 @@
     "languages": [
       {
         "id": "chatmd",
-        "aliases": ["Chat Memo"],
-        "extensions": [".chat.md"]
+        "aliases": [
+          "Chat Memo"
+        ],
+        "extensions": [
+          ".chat.md"
+        ]
       }
     ],
     "customEditors": [
@@ -59,6 +63,7 @@
   },
   "devDependencies": {
     "@pandacss/dev": "^1.9.0",
+    "@types/markdown-it": "^14.1.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/vscode": "^1.110.0",
@@ -69,6 +74,7 @@
   },
   "packageManager": "pnpm@10.32.1",
   "dependencies": {
+    "markdown-it": "^14.1.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },

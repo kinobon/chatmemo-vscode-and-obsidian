@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { css } from 'styled-system/css';
 import { ChatMessage } from './types';
-import { linkify } from './linkify';
+import { renderMarkdown } from './renderMarkdown';
 
 interface Props {
   message: ChatMessage;
@@ -55,6 +55,15 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
           {replyTo.message || 'このメッセージは削除されました'}
         </div>
       )}
+      {message.timestamp && (
+        <div className={css({
+          fontSize: '11px',
+          opacity: 0.5,
+          marginBottom: '2px',
+        })}>
+          {formatTimestamp(message.timestamp)}
+        </div>
+      )}
       {isDeleted ? (
         <div className={css({
           whiteSpace: 'pre-wrap',
@@ -66,12 +75,11 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
         </div>
       ) : (
         <div
-          className={css({
-            whiteSpace: 'pre-wrap',
+          className={`${css({
             wordBreak: 'break-word',
             lineHeight: '1.5',
-          })}
-          dangerouslySetInnerHTML={{ __html: linkify(message.message) }}
+          })} markdown-body`}
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(message.message) }}
         />
       )}
 
@@ -105,6 +113,12 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
       )}
     </div>
   );
+}
+
+function formatTimestamp(iso: string): string {
+  const d = new Date(iso);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
 function ActionButton({ label, title, onClick, danger }: { label: string; title: string; onClick: () => void; danger?: boolean }) {

@@ -2,9 +2,10 @@ export interface ChatMessage {
   id: string;
   parent?: string;
   message: string;
+  timestamp?: string;
 }
 
-const HEADER_RE = /^<!-- msg:(\d+)(?:\s+re:(\d+))? -->$/;
+const HEADER_RE = /^<!-- msg:(\d+)(?:\s+re:(\d+))?(?:\s+ts:(\S+))? -->$/;
 const FRONTMATTER_RE = /^---\r?\n[\s\S]*?\r?\n---\r?\n/;
 
 const FRONTMATTER = `---
@@ -12,6 +13,7 @@ description: |
   Markdown形式のSlack風チャットメモ。
   各メッセージはHTMLコメント <!-- msg:ID --> で区切られる。
   <!-- msg:ID re:PARENT_ID --> はスレッド返信を示す。
+  <!-- msg:ID ts:TIMESTAMP --> のts:はISO 8601形式の投稿日時。
   IDはファイル内で一意な連番整数。本文はヘッダー行の次の行から次のヘッダーまで。
   メッセージ本文にはMarkdown記法が使える。
   本文が空のメッセージは削除済みを意味する。
@@ -40,6 +42,7 @@ export function parseMessages(text: string): ChatMessage[] {
       flush();
       current = { id: match[1], message: '' };
       if (match[2]) current.parent = match[2];
+      if (match[3]) current.timestamp = match[3];
       bodyLines = [];
     } else if (current) {
       bodyLines.push(line);
@@ -52,9 +55,10 @@ export function parseMessages(text: string): ChatMessage[] {
 
 export function serializeMessages(messages: ChatMessage[]): string {
   const body = messages.map(m => {
-    const header = m.parent
-      ? `<!-- msg:${m.id} re:${m.parent} -->`
-      : `<!-- msg:${m.id} -->`;
+    let header = `<!-- msg:${m.id}`;
+    if (m.parent) header += ` re:${m.parent}`;
+    if (m.timestamp) header += ` ts:${m.timestamp}`;
+    header += ` -->`;
     return `${header}\n${m.message}`;
   }).join('\n\n');
   return `${FRONTMATTER}\n\n${body}`;
