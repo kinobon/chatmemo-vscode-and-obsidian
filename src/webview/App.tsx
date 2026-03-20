@@ -35,8 +35,7 @@ export function App() {
       vscode.postMessage({ type: 'edit', id: editingId, message: text });
       setEditingId(null);
     } else {
-      const id = crypto.randomUUID();
-      vscode.postMessage({ type: 'add', id, message: text, parent: replyTo || undefined });
+      vscode.postMessage({ type: 'add', message: text, parent: replyTo || undefined });
       setReplyTo(null);
     }
   }, [editingId, replyTo]);
@@ -139,8 +138,7 @@ export function App() {
           onEdit={handleEdit}
           onDelete={handleDelete}
           onSendReply={(text, parentId) => {
-            const id = crypto.randomUUID();
-            vscode.postMessage({ type: 'add', id, message: text, parent: parentId });
+            vscode.postMessage({ type: 'add', message: text, parent: parentId });
           }}
         />
       )}

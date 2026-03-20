@@ -1,10 +1,7 @@
 import * as vscode from 'vscode';
+import { ChatMessage, parseMessages, serializeMessages, nextId, migrateFromJson } from './format';
 
-export interface ChatMessage {
-  id: string;
-  parent?: string;
-  message: string;
-}
+export { ChatMessage };
 
 export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
   public static register(context: vscode.ExtensionContext): vscode.Disposable {
@@ -34,13 +31,7 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
     webviewPanel.webview.html = this.getHtml(webviewPanel.webview, scriptUri, cssUri);
 
     const updateWebview = () => {
-      const text = document.getText();
-      let messages: ChatMessage[] = [];
-      try {
-        messages = text.trim() ? JSON.parse(text) : [];
-      } catch {
-        messages = [];
-      }
+      const messages = this.getMessages(document);
       webviewPanel.webview.postMessage({ type: 'update', messages });
     };
 
@@ -58,7 +49,8 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
       switch (msg.type) {
         case 'add': {
           const messages = this.getMessages(document);
-          const entry: ChatMessage = { id: msg.id, message: msg.message };
+          const id = nextId(messages);
+          const entry: ChatMessage = { id, message: msg.message };
           if (msg.parent) entry.parent = msg.parent;
           messages.push(entry);
           await this.writeMessages(document, messages);
@@ -96,11 +88,10 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
 
   private getMessages(document: vscode.TextDocument): ChatMessage[] {
     const text = document.getText();
-    try {
-      return text.trim() ? JSON.parse(text) : [];
-    } catch {
-      return [];
-    }
+    if (!text.trim()) return [];
+    const migrated = migrateFromJson(text);
+    if (migrated) return migrated;
+    return parseMessages(text);
   }
 
   private async writeMessages(document: vscode.TextDocument, messages: ChatMessage[]): Promise<void> {
@@ -108,7 +99,7 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
     edit.replace(
       document.uri,
       new vscode.Range(0, 0, document.lineCount, 0),
-      JSON.stringify(messages, null, 2)
+      serializeMessages(messages)
     );
     await vscode.workspace.applyEdit(edit);
   }

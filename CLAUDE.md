@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What is this?
 
-ChatMemo is a VS Code extension that provides a Slack-like chat UI for taking notes. Files use the `.chatmemo` extension and contain a flat JSON array of messages with optional threading via `parent` references.
+ChatMemo is a VS Code extension that provides a Slack-like chat UI for taking notes. Files use the `.chat.md` extension and contain messages in a Markdown-based format with HTML comment headers (`<!-- msg:ID re:PARENT -->`) for threading.
 
 ## Build & Development
 
@@ -17,7 +17,7 @@ pnpm package          # build + package into .vsix
 
 There are no tests or linting configured.
 
-To test the extension: open this repo in VS Code, press F5 to launch the Extension Development Host, then open a `.chatmemo` file.
+To test the extension: open this repo in VS Code, press F5 to launch the Extension Development Host, then open a `.chat.md` file.
 
 ## Build Pipeline (build.mjs)
 
@@ -32,11 +32,11 @@ The build has 4 steps run sequentially:
 
 Two separate bundles communicate via VS Code's `postMessage` API:
 
-- **Extension host** (`src/extension/`): `ChatMemoEditorProvider` implements `CustomTextEditorProvider`. It owns the document, parses JSON, and handles add/edit/delete messages from the webview. Changes are applied as `WorkspaceEdit`s so VS Code manages undo/redo and dirty state.
+- **Extension host** (`src/extension/`): `ChatMemoEditorProvider` implements `CustomTextEditorProvider`. It owns the document, parses Markdown-format messages via `format.ts`, and handles add/edit/delete messages from the webview. Changes are applied as `WorkspaceEdit`s so VS Code manages undo/redo and dirty state. `format.ts` contains the parser, serializer, ID generator, and JSON migration logic.
 
 - **Webview** (`src/webview/`): React 19 app rendered in a VS Code webview panel. Components: `App` (state management, message routing), `MessageBubble` (individual message with hover actions), `ThreadView` (side panel for threaded replies), `Composer` (input area with reply/edit modes). Styling uses Panda CSS with `styled-system/css`.
 
-The `ChatMessage` type is defined in both `src/extension/editorProvider.ts` and `src/webview/types.ts` (identical interface: `{id, parent?, message}`). Keep them in sync.
+The `ChatMessage` type is defined in `src/extension/format.ts` (canonical) and `src/webview/types.ts` (identical interface: `{id, parent?, message}`). Keep them in sync.
 
 ## Key Conventions
 
