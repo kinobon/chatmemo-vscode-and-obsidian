@@ -101,24 +101,18 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
       })}>
         <MessageBubble
           message={rootMsg}
-
-          onReply={() => {}}
+          onReply={() => onReply(rootMsg.id)}
           onEdit={() => onEdit(rootMsg.id)}
           onDelete={() => onDelete(rootMsg.id)}
           onOpenThread={() => {}}
         />
-        <div className={css({
-          borderTop: '1px solid var(--vscode-widget-border)',
-          margin: '4px 0',
-          opacity: 0.5,
-        })} />
         {threadMessages.map(msg => (
           <MessageBubble
             key={msg.id}
             message={msg}
-  
+            replyTo={msg.parent ? messages.find(m => m.id === msg.parent) : undefined}
             compact
-            onReply={() => {}}
+            onReply={() => onReply(msg.id)}
             onEdit={() => onEdit(msg.id)}
             onDelete={() => onDelete(msg.id)}
             onOpenThread={() => {}}

@@ -50,7 +50,6 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
           overflow: 'hidden',
           display: '-webkit-box',
           WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
         })}>
           {replyTo.message || 'このメッセージは削除されました'}
         </div>
