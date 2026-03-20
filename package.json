@@ -38,7 +38,7 @@
     "commands": [
       {
         "command": "chatmemo.openAsText",
-        "title": "ChatMemo: Open as Plain Text"
+        "title": "ChatMemo: Open as Markdown"
       }
     ],
     "menus": {

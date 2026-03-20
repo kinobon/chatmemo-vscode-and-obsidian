@@ -8,7 +8,9 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('chatmemo.openAsText', async (uri?: vscode.Uri) => {
       const target = uri ?? vscode.window.activeTextEditor?.document.uri;
       if (target) {
-        await vscode.commands.executeCommand('vscode.openWith', target, 'default');
+        const doc = await vscode.workspace.openTextDocument(target);
+        await vscode.languages.setTextDocumentLanguage(doc, 'markdown');
+        await vscode.window.showTextDocument(doc, { preview: false });
       }
     })
   );
