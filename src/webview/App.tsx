@@ -35,7 +35,10 @@ export function App() {
       vscode.postMessage({ type: 'edit', id: editingId, message: text });
       setEditingId(null);
     } else {
-      vscode.postMessage({ type: 'add', message: text, parent: replyTo || undefined });
+      const othersMatch = text.match(/^@others\s?/);
+      const by = othersMatch ? 'others' : 'me';
+      const message = othersMatch ? text.slice(othersMatch[0].length) : text;
+      vscode.postMessage({ type: 'add', message, parent: replyTo || undefined, by });
       setReplyTo(null);
     }
   }, [editingId, replyTo]);
@@ -106,17 +109,21 @@ export function App() {
             </div>
           )}
           {messages.map(msg => (
-            <MessageBubble
-              key={msg.id}
-              message={msg}
-              replyTo={msg.parent ? messages.find(m => m.id === msg.parent) : undefined}
-              onReply={() => setReplyTo(msg.id)}
-              onEdit={() => handleEdit(msg.id)}
-              onDelete={() => handleDelete(msg.id)}
-              onOpenThread={() => setThreadRootId(findThreadRoot(msg.id))}
-              onCopy={() => handleCopy(msg.message)}
-              isActive={threadRootId === msg.id}
-            />
+            <div key={msg.id} className={css({
+              display: 'flex',
+              justifyContent: msg.by === 'others' ? 'flex-start' : 'flex-end',
+            })}>
+              <MessageBubble
+                message={msg}
+                replyTo={msg.parent ? messages.find(m => m.id === msg.parent) : undefined}
+                onReply={() => setReplyTo(msg.id)}
+                onEdit={() => handleEdit(msg.id)}
+                onDelete={() => handleDelete(msg.id)}
+                onOpenThread={() => setThreadRootId(findThreadRoot(msg.id))}
+                onCopy={() => handleCopy(msg.message)}
+                isActive={threadRootId === msg.id}
+              />
+            </div>
           ))}
           <div ref={bottomRef} />
         </div>
@@ -140,7 +147,10 @@ export function App() {
           onDelete={handleDelete}
           onCopy={handleCopy}
           onSendReply={(text, parentId) => {
-            vscode.postMessage({ type: 'add', message: text, parent: parentId });
+            const othersMatch = text.match(/^@others\s?/);
+            const by = othersMatch ? 'others' : 'me';
+            const message = othersMatch ? text.slice(othersMatch[0].length) : text;
+            vscode.postMessage({ type: 'add', message, parent: parentId, by });
           }}
         />
       )}

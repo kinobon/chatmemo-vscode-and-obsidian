@@ -100,26 +100,35 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
         flexDirection: 'column',
         gap: '6px',
       })}>
-        <MessageBubble
-          message={rootMsg}
-          onReply={() => onReply(rootMsg.id)}
-          onEdit={() => onEdit(rootMsg.id)}
-          onDelete={() => onDelete(rootMsg.id)}
-          onOpenThread={() => {}}
-          onCopy={() => onCopy(rootMsg.message)}
-        />
-        {threadMessages.map(msg => (
+        <div className={css({
+          display: 'flex',
+          justifyContent: rootMsg.by === 'others' ? 'flex-start' : 'flex-end',
+        })}>
           <MessageBubble
-            key={msg.id}
-            message={msg}
-            replyTo={msg.parent ? messages.find(m => m.id === msg.parent) : undefined}
-            compact
-            onReply={() => onReply(msg.id)}
-            onEdit={() => onEdit(msg.id)}
-            onDelete={() => onDelete(msg.id)}
+            message={rootMsg}
+            onReply={() => onReply(rootMsg.id)}
+            onEdit={() => onEdit(rootMsg.id)}
+            onDelete={() => onDelete(rootMsg.id)}
             onOpenThread={() => {}}
             onCopy={() => onCopy(rootMsg.message)}
           />
+        </div>
+        {threadMessages.map(msg => (
+          <div key={msg.id} className={css({
+            display: 'flex',
+            justifyContent: msg.by === 'others' ? 'flex-start' : 'flex-end',
+          })}>
+            <MessageBubble
+              message={msg}
+              replyTo={msg.parent ? messages.find(m => m.id === msg.parent) : undefined}
+              compact
+              onReply={() => onReply(msg.id)}
+              onEdit={() => onEdit(msg.id)}
+              onDelete={() => onDelete(msg.id)}
+              onOpenThread={() => {}}
+              onCopy={() => onCopy(rootMsg.message)}
+            />
+          </div>
         ))}
         <div ref={bottomRef} />
       </div>

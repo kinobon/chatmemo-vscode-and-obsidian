@@ -19,6 +19,7 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
   const [hovered, setHovered] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const isDeleted = message.message === '';
+  const isOthers = message.by === 'others';
 
   return (
     <div
@@ -28,11 +29,15 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
         borderRadius: '12px',
         bg: isActive
           ? 'var(--vscode-list-activeSelectionBackground)'
-          : 'color-mix(in srgb, var(--vscode-editor-foreground) 6%, transparent)',
+          : isOthers
+            ? 'color-mix(in srgb, var(--vscode-textLink-foreground) 10%, transparent)'
+            : 'color-mix(in srgb, var(--vscode-editor-foreground) 6%, transparent)',
         _hover: {
           bg: isActive
             ? 'var(--vscode-list-activeSelectionBackground)'
-            : 'color-mix(in srgb, var(--vscode-editor-foreground) 10%, transparent)',
+            : isOthers
+              ? 'color-mix(in srgb, var(--vscode-textLink-foreground) 15%, transparent)'
+              : 'color-mix(in srgb, var(--vscode-editor-foreground) 10%, transparent)',
         },
         transition: 'background 0.15s',
         maxWidth: '85%',
