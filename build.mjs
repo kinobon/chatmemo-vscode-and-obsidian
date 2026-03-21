@@ -6,6 +6,9 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// 0. Ensure output directory exists
+fs.mkdirSync('out', { recursive: true });
+
 // 1. Generate Panda CSS artifacts + output CSS
 execSync('npx panda codegen', { stdio: 'inherit' });
 execSync('npx panda cssgen --outfile out/panda.css', { stdio: 'inherit' });
