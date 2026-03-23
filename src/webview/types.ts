@@ -3,4 +3,5 @@ export interface ChatMessage {
   parent?: string;
   message: string;
   timestamp?: string;
+  by?: string;
 }

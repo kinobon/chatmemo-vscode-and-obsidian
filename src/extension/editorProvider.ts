@@ -55,6 +55,7 @@ export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
           const messages = this.getMessages(document);
           const id = nextId(messages);
           const entry: ChatMessage = { id, message: msg.message, timestamp: new Date().toISOString() };
+          if (msg.by) entry.by = msg.by;
           if (msg.parent) entry.parent = msg.parent;
           messages.push(entry);
           await this.writeMessages(document, messages);
