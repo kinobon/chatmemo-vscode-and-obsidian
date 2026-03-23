@@ -1,0 +1,10 @@
+{
+  "id": "chatmemo",
+  "name": "ChatMemo",
+  "version": "0.1.0",
+  "minAppVersion": "0.15.0",
+  "description": "Slack-like chat UI for taking notes in .chat files",
+  "author": "kinobon",
+  "authorUrl": "https://github.com/kinobon",
+  "isDesktopOnly": false
+}

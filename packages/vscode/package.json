@@ -15,12 +15,12 @@
   "contributes": {
     "languages": [
       {
-        "id": "chatmd",
+        "id": "chat",
         "aliases": [
           "Chat Memo"
         ],
         "extensions": [
-          ".chat.md"
+          ".chat"
         ]
       }
     ],
@@ -30,7 +30,7 @@
         "displayName": "ChatMemo Editor",
         "selector": [
           {
-            "filenamePattern": "*.chat.md"
+            "filenamePattern": "*.chat"
           }
         ],
         "priority": "default"
@@ -46,13 +46,13 @@
       "explorer/context": [
         {
           "command": "chatmemo.openAsText",
-          "when": "resourceFilename =~ /\\.chat\\.md$/"
+          "when": "resourceFilename =~ /\\.chat$/"
         }
       ],
       "commandPalette": [
         {
           "command": "chatmemo.openAsText",
-          "when": "resourceFilename =~ /\\.chat\\.md$/"
+          "when": "resourceFilename =~ /\\.chat$/"
         }
       ]
     }

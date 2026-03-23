@@ -2,7 +2,9 @@
 description: |
   Markdown形式のSlack風チャットメモ。
   各メッセージはHTMLコメント <!-- msg:ID --> で区切られる。
+  <!-- msg:ID by:AUTHOR --> のby:は投稿者（me または others）。
   <!-- msg:ID re:PARENT_ID --> はスレッド返信を示す。
+  <!-- msg:ID ts:TIMESTAMP --> のts:はISO 8601形式の投稿日時。
   IDはファイル内で一意な連番整数。本文はヘッダー行の次の行から次のヘッダーまで。
   メッセージ本文にはMarkdown記法が使える。
   本文が空のメッセージは削除済みを意味する。
@@ -22,3 +24,24 @@ http://localhost:7860/
 
 <!-- msg:5 re:4 -->
 あｄｓふぁｓｄｆ
+
+<!-- msg:6 by:me ts:2026-03-21T02:15:49.563Z -->
+@me
+
+<!-- msg:7 by:others ts:2026-03-21T02:15:53.385Z -->
+
+
+<!-- msg:8 by:others ts:2026-03-21T02:15:58.753Z -->
+asdf
+
+<!-- msg:9 by:me ts:2026-03-21T02:16:26.680Z -->
+aa
+
+<!-- msg:10 by:me ts:2026-03-21T02:16:27.506Z -->
+asdfasdf
+
+<!-- msg:11 by:me ts:2026-03-21T02:16:28.764Z -->
+ddd
+
+<!-- msg:12 by:me re:8 ts:2026-03-21T02:16:32.359Z -->
+asdfasfd

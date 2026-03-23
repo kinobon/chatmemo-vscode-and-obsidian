@@ -2,6 +2,10 @@ node_modules/
 out/
 *.vsix
 
+## Obsidian build output
+packages/obsidian/main.js
+packages/obsidian/styles.css
+
 ## Panda
 styled-system
 styled-system-studio

@@ -17,7 +17,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - run: pnpm -w run build:all
       - run: pnpm --filter @chatmemo/vscode run package
       - uses: actions/upload-artifact@v4
         with:

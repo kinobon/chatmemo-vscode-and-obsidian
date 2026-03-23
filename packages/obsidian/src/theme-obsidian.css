@@ -1,0 +1,23 @@
+.chatmemo-container {
+  --cm-bg: var(--background-primary);
+  --cm-fg: var(--text-normal);
+  --cm-accent: var(--interactive-accent);
+  --cm-accent-fg: var(--text-on-accent);
+  --cm-input-bg: var(--background-modifier-form-field);
+  --cm-input-fg: var(--text-normal);
+  --cm-input-border: var(--background-modifier-border);
+  --cm-border: var(--background-modifier-border);
+  --cm-button-bg: var(--interactive-accent);
+  --cm-button-fg: var(--text-on-accent);
+  --cm-button-hover-bg: var(--interactive-accent-hover);
+  --cm-focus-border: var(--background-modifier-border-focus);
+  --cm-sidebar-bg: var(--background-secondary);
+  --cm-selection-bg: var(--background-modifier-active-hover);
+  --cm-error-fg: var(--text-error);
+  --cm-toolbar-hover-bg: var(--background-modifier-hover);
+  --cm-warning-border: var(--background-modifier-border);
+  --cm-font-family: var(--font-interface);
+  --cm-font-size: var(--font-text-size);
+  --cm-mono-font: var(--font-monospace);
+  --cm-blockquote-border: var(--background-modifier-border);
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@chatmemo/obsidian",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@chatmemo/core": "workspace:*",
+    "@chatmemo/ui": "workspace:*",
+    "markdown-it": "^14.1.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.27.4",
+    "obsidian": "latest"
+  }
+}
