@@ -35,10 +35,7 @@ export function App() {
       vscode.postMessage({ type: 'edit', id: editingId, message: text });
       setEditingId(null);
     } else {
-      const othersMatch = text.match(/^@others\s?/);
-      const by = othersMatch ? 'others' : 'me';
-      const message = othersMatch ? text.slice(othersMatch[0].length) : text;
-      vscode.postMessage({ type: 'add', message, parent: replyTo || undefined, by });
+      vscode.postMessage({ type: 'add', message: text, parent: replyTo || undefined, by: 'me' });
       setReplyTo(null);
     }
   }, [editingId, replyTo]);
@@ -147,10 +144,7 @@ export function App() {
           onDelete={handleDelete}
           onCopy={handleCopy}
           onSendReply={(text, parentId) => {
-            const othersMatch = text.match(/^@others\s?/);
-            const by = othersMatch ? 'others' : 'me';
-            const message = othersMatch ? text.slice(othersMatch[0].length) : text;
-            vscode.postMessage({ type: 'add', message, parent: parentId, by });
+            vscode.postMessage({ type: 'add', message: text, parent: parentId, by: 'me' });
           }}
         />
       )}
