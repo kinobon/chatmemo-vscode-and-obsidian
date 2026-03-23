@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { css } from 'styled-system/css';
-import { ChatMessage } from './types';
+import type { ChatMessage } from '@chatmemo/core';
 import { MessageBubble } from './MessageBubble';
 
 interface Props {
@@ -54,28 +54,20 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
 
   if (!rootMsg) return null;
 
-  const getReplyCount = (id: string): number => {
-    let count = 0;
-    for (const m of messages) {
-      if (m.parent === id) count += 1 + getReplyCount(m.id);
-    }
-    return count;
-  };
-
   return (
     <div className={css({
       width: '350px',
-      borderLeft: '1px solid var(--vscode-widget-border)',
+      borderLeft: '1px solid var(--cm-border)',
       display: 'flex',
       flexDirection: 'column',
-      bg: 'var(--vscode-sideBar-background)',
+      bg: 'var(--cm-sidebar-bg)',
     })}>
       <div className={css({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '12px 16px',
-        borderBottom: '1px solid var(--vscode-widget-border)',
+        borderBottom: '1px solid var(--cm-border)',
         fontWeight: 'bold',
       })}>
         <span>スレッド</span>
@@ -85,7 +77,7 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            color: 'var(--vscode-editor-foreground)',
+            color: 'var(--cm-fg)',
             fontSize: '16px',
             padding: '0 4px',
           })}
@@ -134,7 +126,7 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
       </div>
 
       <div className={css({
-        borderTop: '1px solid var(--vscode-widget-border)',
+        borderTop: '1px solid var(--cm-border)',
         padding: '8px 12px',
       })}>
         <div className={css({ display: 'flex', gap: '8px' })}>
@@ -148,16 +140,16 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
             className={css({
               flex: 1,
               resize: 'none',
-              bg: 'var(--vscode-input-background)',
-              color: 'var(--vscode-input-foreground)',
-              border: '1px solid var(--vscode-input-border)',
+              bg: 'var(--cm-input-bg)',
+              color: 'var(--cm-input-fg)',
+              border: '1px solid var(--cm-input-border)',
               borderRadius: '4px',
               padding: '6px 10px',
               fontFamily: 'inherit',
               fontSize: 'inherit',
               lineHeight: '1.4',
               outline: 'none',
-              _focus: { borderColor: 'var(--vscode-focusBorder)' },
+              _focus: { borderColor: 'var(--cm-focus-border)' },
             })}
             onInput={(e) => {
               const el = e.currentTarget;
@@ -168,8 +160,8 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
           <button
             onClick={handleSubmit}
             className={css({
-              bg: 'var(--vscode-button-background)',
-              color: 'var(--vscode-button-foreground)',
+              bg: 'var(--cm-button-bg)',
+              color: 'var(--cm-button-fg)',
               border: 'none',
               borderRadius: '4px',
               padding: '6px 12px',
@@ -177,7 +169,7 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
               fontFamily: 'inherit',
               fontSize: 'inherit',
               alignSelf: 'flex-end',
-              _hover: { bg: 'var(--vscode-button-hoverBackground)' },
+              _hover: { bg: 'var(--cm-button-hover-bg)' },
             })}
           >
             返信

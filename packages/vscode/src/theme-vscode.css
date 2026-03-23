@@ -1,0 +1,23 @@
+:root {
+  --cm-bg: var(--vscode-editor-background);
+  --cm-fg: var(--vscode-editor-foreground);
+  --cm-accent: var(--vscode-textLink-foreground);
+  --cm-accent-fg: var(--vscode-button-foreground);
+  --cm-input-bg: var(--vscode-input-background);
+  --cm-input-fg: var(--vscode-input-foreground);
+  --cm-input-border: var(--vscode-input-border);
+  --cm-border: var(--vscode-widget-border);
+  --cm-button-bg: var(--vscode-button-background);
+  --cm-button-fg: var(--vscode-button-foreground);
+  --cm-button-hover-bg: var(--vscode-button-hoverBackground);
+  --cm-focus-border: var(--vscode-focusBorder);
+  --cm-sidebar-bg: var(--vscode-sideBar-background);
+  --cm-selection-bg: var(--vscode-list-activeSelectionBackground);
+  --cm-error-fg: var(--vscode-errorForeground);
+  --cm-toolbar-hover-bg: var(--vscode-toolbar-hoverBackground);
+  --cm-warning-border: var(--vscode-inputValidation-warningBorder);
+  --cm-font-family: var(--vscode-font-family);
+  --cm-font-size: var(--vscode-font-size);
+  --cm-mono-font: var(--vscode-editor-font-family, monospace);
+  --cm-blockquote-border: var(--vscode-textBlockQuote-border, #666);
+}

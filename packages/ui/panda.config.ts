@@ -2,7 +2,7 @@ import { defineConfig } from "@pandacss/dev";
 
 export default defineConfig({
   preflight: true,
-  include: ["./src/webview/**/*.{ts,tsx}"],
+  include: ["./src/**/*.{ts,tsx}"],
   exclude: [],
   theme: {
     extend: {},

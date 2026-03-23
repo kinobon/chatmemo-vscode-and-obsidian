@@ -1,0 +1,76 @@
+{
+  "name": "@chatmemo/vscode",
+  "displayName": "ChatMemo",
+  "description": "Slack-like chat memo editor for VS Code",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "vscode": "^1.110.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "chatmd",
+        "aliases": [
+          "Chat Memo"
+        ],
+        "extensions": [
+          ".chat.md"
+        ]
+      }
+    ],
+    "customEditors": [
+      {
+        "viewType": "chatmemo.editor",
+        "displayName": "ChatMemo Editor",
+        "selector": [
+          {
+            "filenamePattern": "*.chat.md"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "chatmemo.openAsText",
+        "title": "ChatMemo: Open as Markdown"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "chatmemo.openAsText",
+          "when": "resourceFilename =~ /\\.chat\\.md$/"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "chatmemo.openAsText",
+          "when": "resourceFilename =~ /\\.chat\\.md$/"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "package": "node build.mjs && vsce package --no-dependencies"
+  },
+  "dependencies": {
+    "@chatmemo/core": "workspace:*",
+    "@chatmemo/ui": "workspace:*",
+    "markdown-it": "^14.1.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.110.0",
+    "@vscode/vsce": "^3.7.1",
+    "esbuild": "^0.27.4"
+  }
+}

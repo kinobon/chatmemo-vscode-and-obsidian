@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { css } from 'styled-system/css';
-import { ChatMessage } from './types';
+import type { ChatMessage } from '@chatmemo/core';
 import { renderMarkdown } from './renderMarkdown';
 
 interface Props {
@@ -28,16 +28,16 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
         padding: compact ? '8px 14px' : '10px 14px',
         borderRadius: '12px',
         bg: isActive
-          ? 'var(--vscode-list-activeSelectionBackground)'
+          ? 'var(--cm-selection-bg)'
           : isOthers
-            ? 'color-mix(in srgb, var(--vscode-textLink-foreground) 10%, transparent)'
-            : 'color-mix(in srgb, var(--vscode-editor-foreground) 6%, transparent)',
+            ? 'color-mix(in srgb, var(--cm-accent) 10%, transparent)'
+            : 'color-mix(in srgb, var(--cm-fg) 6%, transparent)',
         _hover: {
           bg: isActive
-            ? 'var(--vscode-list-activeSelectionBackground)'
+            ? 'var(--cm-selection-bg)'
             : isOthers
-              ? 'color-mix(in srgb, var(--vscode-textLink-foreground) 15%, transparent)'
-              : 'color-mix(in srgb, var(--vscode-editor-foreground) 10%, transparent)',
+              ? 'color-mix(in srgb, var(--cm-accent) 15%, transparent)'
+              : 'color-mix(in srgb, var(--cm-fg) 10%, transparent)',
         },
         transition: 'background 0.15s',
         maxWidth: '85%',
@@ -47,7 +47,7 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
     >
       {replyTo && (
         <div className={css({
-          borderLeft: '2px solid var(--vscode-textLink-foreground)',
+          borderLeft: '2px solid var(--cm-accent)',
           paddingLeft: '8px',
           marginBottom: '4px',
           opacity: 0.7,
@@ -96,8 +96,8 @@ export function MessageBubble({ message, replyTo, onReply, onEdit, onDelete, onO
           right: '8px',
           display: 'flex',
           gap: '2px',
-          bg: 'var(--vscode-editor-background)',
-          border: '1px solid var(--vscode-widget-border)',
+          bg: 'var(--cm-bg)',
+          border: '1px solid var(--cm-border)',
           borderRadius: '4px',
           padding: '2px',
           zIndex: 10,
@@ -139,8 +139,8 @@ function ActionButton({ label, title, onClick, danger }: { label: string; title:
         padding: '4px 8px',
         borderRadius: '4px',
         fontSize: '16px',
-        color: danger ? 'var(--vscode-errorForeground)' : 'var(--vscode-editor-foreground)',
-        _hover: { bg: 'var(--vscode-toolbar-hoverBackground)' },
+        color: danger ? 'var(--cm-error-fg)' : 'var(--cm-fg)',
+        _hover: { bg: 'var(--cm-toolbar-hover-bg)' },
       })}
     >
       {label}

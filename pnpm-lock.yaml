@@ -7,7 +7,18 @@ settings:
 importers:
 
   .:
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/core: {}
+
+  packages/ui:
     dependencies:
+      '@chatmemo/core':
+        specifier: workspace:*
+        version: link:../core
       markdown-it:
         specifier: ^14.1.1
         version: 14.1.1
@@ -30,6 +41,28 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
+      postcss:
+        specifier: ^8.5.8
+        version: 8.5.8
+
+  packages/vscode:
+    dependencies:
+      '@chatmemo/core':
+        specifier: workspace:*
+        version: link:../core
+      '@chatmemo/ui':
+        specifier: workspace:*
+        version: link:../ui
+      markdown-it:
+        specifier: ^14.1.1
+        version: 14.1.1
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
+    devDependencies:
       '@types/vscode':
         specifier: ^1.110.0
         version: 1.110.0
@@ -39,12 +72,6 @@ importers:
       esbuild:
         specifier: ^0.27.4
         version: 0.27.4
-      postcss:
-        specifier: ^8.5.8
-        version: 8.5.8
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
 
 packages:
 

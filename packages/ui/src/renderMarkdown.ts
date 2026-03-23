@@ -9,7 +9,7 @@ const md = new MarkdownIt({
 // リンクを新しいタブで開く + VS Code テーマカラー適用
 const defaultRender = md.renderer.rules.link_open || ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options));
 md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
-  tokens[idx].attrSet('style', 'color: var(--vscode-textLink-foreground); text-decoration: underline;');
+  tokens[idx].attrSet('style', 'color: var(--cm-accent); text-decoration: underline;');
   tokens[idx].attrSet('target', '_blank');
   return defaultRender(tokens, idx, options, env, self);
 };

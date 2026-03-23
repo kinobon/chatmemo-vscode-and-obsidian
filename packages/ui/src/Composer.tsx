@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { css } from 'styled-system/css';
-import { ChatMessage } from './types';
+import type { ChatMessage } from '@chatmemo/core';
 
 interface Props {
   onSend: (text: string) => void;
@@ -47,7 +47,7 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
 
   return (
     <div className={css({
-      borderTop: '1px solid var(--vscode-widget-border)',
+      borderTop: '1px solid var(--cm-border)',
       padding: '12px 16px',
     })}>
       {replyTo && (
@@ -57,7 +57,7 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
           gap: '8px',
           padding: '4px 8px',
           marginBottom: '8px',
-          borderLeft: '3px solid var(--vscode-textLink-foreground)',
+          borderLeft: '3px solid var(--cm-accent)',
           fontSize: '12px',
           opacity: 0.8,
         })}>
@@ -70,7 +70,7 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: 'var(--vscode-editor-foreground)',
+              color: 'var(--cm-fg)',
               padding: '0 4px',
             })}
           >✕</button>
@@ -83,7 +83,7 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
           gap: '8px',
           padding: '4px 8px',
           marginBottom: '8px',
-          borderLeft: '3px solid var(--vscode-inputValidation-warningBorder)',
+          borderLeft: '3px solid var(--cm-warning-border)',
           fontSize: '12px',
           opacity: 0.8,
         })}>
@@ -94,7 +94,7 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: 'var(--vscode-editor-foreground)',
+              color: 'var(--cm-fg)',
               padding: '0 4px',
             })}
           >✕</button>
@@ -111,16 +111,16 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
           className={css({
             flex: 1,
             resize: 'none',
-            bg: 'var(--vscode-input-background)',
-            color: 'var(--vscode-input-foreground)',
-            border: '1px solid var(--vscode-input-border)',
+            bg: 'var(--cm-input-bg)',
+            color: 'var(--cm-input-fg)',
+            border: '1px solid var(--cm-input-border)',
             borderRadius: '4px',
             padding: '8px 12px',
             fontFamily: 'inherit',
             fontSize: 'inherit',
             lineHeight: '1.4',
             outline: 'none',
-            _focus: { borderColor: 'var(--vscode-focusBorder)' },
+            _focus: { borderColor: 'var(--cm-focus-border)' },
           })}
           onInput={(e) => {
             const el = e.currentTarget;
@@ -131,8 +131,8 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
         <button
           onClick={handleSubmit}
           className={css({
-            bg: 'var(--vscode-button-background)',
-            color: 'var(--vscode-button-foreground)',
+            bg: 'var(--cm-button-bg)',
+            color: 'var(--cm-button-fg)',
             border: 'none',
             borderRadius: '4px',
             padding: '8px 16px',
@@ -140,7 +140,7 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
             fontFamily: 'inherit',
             fontSize: 'inherit',
             alignSelf: 'flex-end',
-            _hover: { bg: 'var(--vscode-button-hoverBackground)' },
+            _hover: { bg: 'var(--cm-button-hover-bg)' },
           })}
         >
           {editing ? '更新' : '送信'}

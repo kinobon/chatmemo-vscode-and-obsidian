@@ -29,20 +29,20 @@
 .markdown-body blockquote {
   margin: 0.3em 0;
   padding: 0.2em 0.8em;
-  border-left: 3px solid var(--vscode-textBlockQuote-border, #666);
+  border-left: 3px solid var(--cm-blockquote-border, #666);
   opacity: 0.85;
 }
 .markdown-body code {
-  font-family: var(--vscode-editor-font-family, monospace);
+  font-family: var(--cm-mono-font, monospace);
   font-size: 0.9em;
-  background: color-mix(in srgb, var(--vscode-editor-foreground) 10%, transparent);
+  background: color-mix(in srgb, var(--cm-fg) 10%, transparent);
   padding: 0.1em 0.3em;
   border-radius: 3px;
 }
 .markdown-body pre {
   margin: 0.3em 0;
   padding: 0.5em 0.8em;
-  background: color-mix(in srgb, var(--vscode-editor-foreground) 8%, transparent);
+  background: color-mix(in srgb, var(--cm-fg) 8%, transparent);
   border-radius: 6px;
   overflow-x: auto;
 }
@@ -52,7 +52,7 @@
 }
 .markdown-body hr {
   border: none;
-  border-top: 1px solid var(--vscode-widget-border, #444);
+  border-top: 1px solid var(--cm-border, #444);
   margin: 0.5em 0;
 }
 .markdown-body table {
@@ -61,7 +61,7 @@
 }
 .markdown-body th,
 .markdown-body td {
-  border: 1px solid var(--vscode-widget-border, #444);
+  border: 1px solid var(--cm-border, #444);
   padding: 0.3em 0.6em;
 }
 .markdown-body img {

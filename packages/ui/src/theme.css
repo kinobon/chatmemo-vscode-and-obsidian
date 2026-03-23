@@ -1,0 +1,23 @@
+:root {
+  --cm-bg: #1e1e1e;
+  --cm-fg: #cccccc;
+  --cm-accent: #3794ff;
+  --cm-accent-fg: #ffffff;
+  --cm-input-bg: #3c3c3c;
+  --cm-input-fg: #cccccc;
+  --cm-input-border: #3c3c3c;
+  --cm-border: #474747;
+  --cm-button-bg: #0e639c;
+  --cm-button-fg: #ffffff;
+  --cm-button-hover-bg: #1177bb;
+  --cm-focus-border: #007fd4;
+  --cm-sidebar-bg: #252526;
+  --cm-selection-bg: #094771;
+  --cm-error-fg: #f48771;
+  --cm-toolbar-hover-bg: rgba(90, 93, 94, 0.31);
+  --cm-warning-border: #cca700;
+  --cm-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  --cm-font-size: 13px;
+  --cm-mono-font: monospace;
+  --cm-blockquote-border: #474747;
+}

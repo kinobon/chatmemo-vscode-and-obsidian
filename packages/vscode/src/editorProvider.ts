@@ -1,7 +1,5 @@
 import * as vscode from 'vscode';
-import { ChatMessage, parseMessages, serializeMessages, nextId, migrateFromJson } from './format';
-
-export { ChatMessage };
+import { ChatMessage, parseMessages, serializeMessages, nextId, migrateFromJson } from '@chatmemo/core';
 
 export class ChatMemoEditorProvider implements vscode.CustomTextEditorProvider {
   public static register(context: vscode.ExtensionContext): vscode.Disposable {

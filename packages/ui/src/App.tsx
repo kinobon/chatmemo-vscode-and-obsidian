@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { css } from 'styled-system/css';
-import { ChatMessage } from './types';
+import type { ChatMessage } from '@chatmemo/core';
+import type { HostAdapter } from './host';
 import { MessageBubble } from './MessageBubble';
 import { Composer } from './Composer';
 import { ThreadView } from './ThreadView';
 
-const vscode = acquireVsCodeApi();
+interface Props {
+  host: HostAdapter;
+}
 
-export function App() {
+export function App({ host }: Props) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -15,16 +18,11 @@ export function App() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handler = (e: MessageEvent) => {
-      const msg = e.data;
-      if (msg.type === 'update') {
-        setMessages(msg.messages);
-      }
-    };
-    window.addEventListener('message', handler);
-    vscode.postMessage({ type: 'ready' });
-    return () => window.removeEventListener('message', handler);
-  }, []);
+    const unsubscribe = host.onMessagesChanged((msgs) => {
+      setMessages(msgs);
+    });
+    return unsubscribe;
+  }, [host]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,18 +30,18 @@ export function App() {
 
   const handleSend = useCallback((text: string) => {
     if (editingId) {
-      vscode.postMessage({ type: 'edit', id: editingId, message: text });
+      host.editMessage(editingId, text);
       setEditingId(null);
     } else {
-      vscode.postMessage({ type: 'add', message: text, parent: replyTo || undefined, by: 'me' });
+      host.addMessage(text, replyTo || undefined, 'me');
       setReplyTo(null);
     }
-  }, [editingId, replyTo]);
+  }, [host, editingId, replyTo]);
 
   const handleDelete = useCallback((id: string) => {
-    vscode.postMessage({ type: 'delete', id });
+    host.deleteMessage(id);
     if (threadRootId === id) setThreadRootId(null);
-  }, [threadRootId]);
+  }, [host, threadRootId]);
 
   const handleEdit = useCallback((id: string) => {
     const msg = messages.find(m => m.id === id);
@@ -51,8 +49,8 @@ export function App() {
   }, [messages]);
 
   const handleCopy = useCallback(async (text: string) => {
-    await navigator.clipboard.writeText(text);
-  }, [messages]);
+    await host.copyToClipboard(text);
+  }, [host]);
 
   const handleCancelEdit = useCallback(() => {
     setEditingId(null);
@@ -75,10 +73,10 @@ export function App() {
     <div className={css({
       display: 'flex',
       height: '100vh',
-      bg: 'var(--vscode-editor-background)',
-      color: 'var(--vscode-editor-foreground)',
-      fontFamily: 'var(--vscode-font-family)',
-      fontSize: 'var(--vscode-font-size)',
+      bg: 'var(--cm-bg)',
+      color: 'var(--cm-fg)',
+      fontFamily: 'var(--cm-font-family)',
+      fontSize: 'var(--cm-font-size)',
     })}>
       <div className={css({
         flex: 1,
@@ -144,7 +142,7 @@ export function App() {
           onDelete={handleDelete}
           onCopy={handleCopy}
           onSendReply={(text, parentId) => {
-            vscode.postMessage({ type: 'add', message: text, parent: parentId, by: 'me' });
+            host.addMessage(text, parentId, 'me');
           }}
         />
       )}

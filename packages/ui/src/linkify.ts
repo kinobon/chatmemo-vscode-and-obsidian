@@ -11,6 +11,6 @@ function escapeHtml(text: string): string {
 export function linkify(text: string): string {
   const escaped = escapeHtml(text);
   return escaped.replace(URL_REGEX, (url) => {
-    return `<a href="${url}" style="color: var(--vscode-textLink-foreground); text-decoration: underline;" title="${url}">${url}</a>`;
+    return `<a href="${url}" style="color: var(--cm-accent); text-decoration: underline;" title="${url}">${url}</a>`;
   });
 }
