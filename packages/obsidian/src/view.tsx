@@ -57,7 +57,7 @@ export class ChatMemoView extends TextFileView {
   private createHostAdapter(): HostAdapter {
     return {
       addMessage: (message: string, parent?: string, by?: string) => {
-        const messages = this.data.trim() ? parseMessages(this.data) : [];
+        const messages = this.data?.trim() ? parseMessages(this.data) : [];
         const id = nextId(messages);
         const entry: ChatMessage = { id, message, timestamp: new Date().toISOString() };
         if (by) entry.by = by;
@@ -89,7 +89,7 @@ export class ChatMemoView extends TextFileView {
       },
       onMessagesChanged: (cb: (messages: ChatMessage[]) => void) => {
         this.messagesCallback = cb;
-        if (this.data.trim()) {
+        if (this.data?.trim()) {
           cb(parseMessages(this.data));
         }
         return () => { this.messagesCallback = null; };

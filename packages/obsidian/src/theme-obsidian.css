@@ -1,4 +1,6 @@
 .chatmemo-container {
+  height: 100%;
+
   --cm-bg: var(--background-primary);
   --cm-fg: var(--text-normal);
   --cm-accent: var(--interactive-accent);

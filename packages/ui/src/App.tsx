@@ -72,7 +72,7 @@ export function App({ host }: Props) {
   return (
     <div className={css({
       display: 'flex',
-      height: '100vh',
+      height: '100%',
       bg: 'var(--cm-bg)',
       color: 'var(--cm-fg)',
       fontFamily: 'var(--cm-font-family)',
