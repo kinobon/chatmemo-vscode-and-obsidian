@@ -1,5 +1,5 @@
 {
-  "name": "@chatmemo/vscode",
+  "name": "chatmemo",
   "displayName": "ChatMemo",
   "description": "Slack-like chat memo editor for VS Code",
   "version": "0.1.0",

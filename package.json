@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "build": "pnpm --filter @chatmemo/vscode run build",
+    "build": "pnpm --filter chatmemo run build",
     "build:obsidian": "pnpm --filter @chatmemo/obsidian run build",
     "build:all": "pnpm -r run build",
-    "package": "pnpm --filter @chatmemo/vscode run package"
+    "package": "pnpm --filter chatmemo run package"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

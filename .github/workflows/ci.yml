@@ -18,8 +18,15 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm -w run build:all
-      - run: pnpm --filter @chatmemo/vscode run package
+      - run: pnpm --filter chatmemo run package
       - uses: actions/upload-artifact@v4
         with:
           name: chatmemo-vsix
           path: "packages/vscode/*.vsix"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chatmemo-obsidian
+          path: |
+            packages/obsidian/main.js
+            packages/obsidian/styles.css
+            packages/obsidian/manifest.json
