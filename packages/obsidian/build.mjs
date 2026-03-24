@@ -68,11 +68,11 @@ await esbuild.build({
   },
 });
 
-// 3. Assemble styles.css: theme-obsidian.css + panda.css + theme.css + markdown.css
-const themeCss = fs.readFileSync('src/theme-obsidian.css', 'utf8');
+// 3. Assemble styles.css: panda.css + theme.css (fallback) + theme-obsidian.css (override) + markdown.css
 const pandaCss = fs.readFileSync(path.join(uiDir, 'out/panda.css'), 'utf8');
 const uiThemeCss = fs.readFileSync(path.join(uiDir, 'src/theme.css'), 'utf8');
+const themeCss = fs.readFileSync('src/theme-obsidian.css', 'utf8');
 const markdownCss = fs.readFileSync(path.join(uiDir, 'src/markdown.css'), 'utf8');
-fs.writeFileSync('styles.css', [themeCss, pandaCss, uiThemeCss, markdownCss].join('\n'));
+fs.writeFileSync('styles.css', [pandaCss, uiThemeCss, themeCss, markdownCss].join('\n'));
 
 console.log('Build complete!');

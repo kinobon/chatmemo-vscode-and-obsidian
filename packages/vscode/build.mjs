@@ -72,11 +72,11 @@ await esbuild.build({
   },
 });
 
-// 4. Assemble webview.css: theme-vscode.css + panda.css + theme.css + markdown.css
-const themeCss = fs.readFileSync('src/theme-vscode.css', 'utf8');
+// 4. Assemble webview.css: panda.css + theme.css (fallback) + theme-vscode.css (override) + markdown.css
 const pandaCss = fs.readFileSync('out/panda.css', 'utf8');
 const uiThemeCss = fs.readFileSync(path.join(uiDir, 'src/theme.css'), 'utf8');
+const themeCss = fs.readFileSync('src/theme-vscode.css', 'utf8');
 const markdownCss = fs.readFileSync(path.join(uiDir, 'src/markdown.css'), 'utf8');
-fs.writeFileSync('out/webview.css', [themeCss, pandaCss, uiThemeCss, markdownCss].join('\n'));
+fs.writeFileSync('out/webview.css', [pandaCss, uiThemeCss, themeCss, markdownCss].join('\n'));
 
 console.log('Build complete!');
