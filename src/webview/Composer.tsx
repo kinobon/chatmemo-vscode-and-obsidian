@@ -44,7 +44,7 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
       if (replyTo) onCancelReply();
     }
     // Ctrl+Z/Y がVSCodeのドキュメントundoに伝播するのを防止
-    if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'y')) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'y' || (e.shiftKey && e.key === 'Z'))) {
       e.stopPropagation();
     }
   };
