@@ -43,6 +43,10 @@ export function Composer({ onSend, replyTo, editing, onCancelReply, onCancelEdit
       if (editing) onCancelEdit();
       if (replyTo) onCancelReply();
     }
+    // Ctrl+Z/Y がVSCodeのドキュメントundoに伝播するのを防止
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'y')) {
+      e.stopPropagation();
+    }
   };
 
   return (

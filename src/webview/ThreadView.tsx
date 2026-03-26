@@ -50,6 +50,9 @@ export function ThreadView({ rootId, messages, onClose, onReply, onEdit, onDelet
       e.preventDefault();
       handleSubmit();
     }
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'y')) {
+      e.stopPropagation();
+    }
   };
 
   if (!rootMsg) return null;

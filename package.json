@@ -41,6 +41,14 @@
         "title": "ChatMemo: Open as Markdown"
       }
     ],
+    "keybindings": [
+      {
+        "command": "editor.action.webvieweditor.showFind",
+        "key": "ctrl+f",
+        "mac": "cmd+f",
+        "when": "activeCustomEditorId == 'chatmemo.editor'"
+      }
+    ],
     "menus": {
       "explorer/context": [
         {
