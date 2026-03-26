@@ -12,7 +12,10 @@ export function App() {
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [threadRootId, setThreadRootId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handler = (e: MessageEvent) => {
@@ -23,8 +26,34 @@ export function App() {
     };
     window.addEventListener('message', handler);
     vscode.postMessage({ type: 'ready' });
-    return () => window.removeEventListener('message', handler);
-  }, []);
+
+    const keyHandler = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+        e.preventDefault();
+        setSearchOpen(prev => {
+          if (prev) {
+            setSearchQuery('');
+            return false;
+          }
+          return true;
+        });
+      }
+      if (e.key === 'Escape' && searchOpen) {
+        setSearchOpen(false);
+        setSearchQuery('');
+      }
+    };
+    window.addEventListener('keydown', keyHandler);
+
+    return () => {
+      window.removeEventListener('message', handler);
+      window.removeEventListener('keydown', keyHandler);
+    };
+  }, [searchOpen]);
+
+  useEffect(() => {
+    if (searchOpen) searchRef.current?.focus();
+  }, [searchOpen]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -71,6 +100,11 @@ export function App() {
   const replyToMessage = replyTo ? messages.find(m => m.id === replyTo) : null;
   const editingMessage = editingId ? messages.find(m => m.id === editingId) : null;
 
+  const query = searchQuery.toLowerCase();
+  const filteredMessages = query
+    ? messages.filter(m => m.message.toLowerCase().includes(query))
+    : messages;
+
   return (
     <div className={css({
       display: 'flex',
@@ -86,6 +120,48 @@ export function App() {
         flexDirection: 'column',
         minWidth: 0,
       })}>
+        {searchOpen && (
+          <div className={css({
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '6px 16px',
+            borderBottom: '1px solid var(--vscode-widget-border)',
+          })}>
+            <input
+              ref={searchRef}
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="検索..."
+              className={css({
+                flex: 1,
+                bg: 'var(--vscode-input-background)',
+                color: 'var(--vscode-input-foreground)',
+                border: '1px solid var(--vscode-input-border)',
+                borderRadius: '4px',
+                padding: '4px 8px',
+                fontFamily: 'inherit',
+                fontSize: 'inherit',
+                outline: 'none',
+                _focus: { borderColor: 'var(--vscode-focusBorder)' },
+              })}
+            />
+            <span className={css({ fontSize: '12px', opacity: 0.6 })}>
+              {filteredMessages.length}/{messages.length}
+            </span>
+            <button
+              onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+              className={css({
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: 'var(--vscode-editor-foreground)',
+                padding: '0 4px',
+              })}
+            >✕</button>
+          </div>
+        )}
         <div className={css({
           flex: 1,
           overflowY: 'auto',
@@ -105,7 +181,7 @@ export function App() {
               メッセージを入力してください
             </div>
           )}
-          {messages.map(msg => (
+          {filteredMessages.map(msg => (
             <div key={msg.id} className={css({
               display: 'flex',
               justifyContent: msg.by === 'others' ? 'flex-start' : 'flex-end',
